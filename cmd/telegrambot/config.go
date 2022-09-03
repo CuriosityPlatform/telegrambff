@@ -14,6 +14,8 @@ func parseEnv() (*config, error) {
 }
 
 type config struct {
-	TelegramAPIToken string `envconfig:"telegram_api_token"`
-	AuthorizedUserID int64  `envconfig:"authorized_user_id"`
+	TelegramAPIToken  string `envconfig:"telegram_api_token"`
+	AuthorizedUserID  int64  `envconfig:"authorized_user_id"`
+	NotionSecretToken string `envconfig:"notion_secret_token"`
+	NotionDatabaseID  string `envconfig:"notion_database_id"`
 }

@@ -3,14 +3,13 @@ package main
 import (
 	"context"
 
-	"github.com/urfave/cli/v2"
-
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/urfave/cli/v2"
 
 	"telegrambot/pkg/chatops"
 	"telegrambot/pkg/chatops/app/token"
-	"telegrambot/pkg/chatops/infrastructure/pocketadapter"
 	"telegrambot/pkg/chatops/infrastructure/telegramserver"
+	"telegrambot/pkg/pocket"
 )
 
 func service(config *config) *cli.Command {
@@ -28,7 +27,8 @@ func runService(ctx context.Context, config *config) error {
 		return err
 	}
 
-	telegramBFF := chatops.Container(pocketadapter.NewMockAdapter(), token.UserID(config.AuthorizedUserID))
+	pocketAPI := pocket.ContainerAPI(config.NotionSecretToken, config.NotionDatabaseID)
+	telegramBFF := chatops.Container(pocketAPI, token.UserID(config.AuthorizedUserID))
 
 	updateListener := telegramserver.NewPullUpdateListener(bot)
 	server := telegramserver.NewServer(
