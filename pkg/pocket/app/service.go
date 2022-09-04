@@ -18,15 +18,15 @@ type service struct {
 	metadataParser    MetadataParser
 }
 
-func (s *service) AddPocketItem(ctx context.Context, url *url.URL) error {
-	meta, err := s.metadataParser.Parse(url)
+func (s *service) AddPocketItem(ctx context.Context, u *url.URL) error {
+	meta, err := s.metadataParser.Parse(u)
 	if err != nil {
 		return err
 	}
 
 	return s.pocketItemStorage.Store(ctx, PocketItem{
 		Title:    meta.Title,
-		URL:      url,
+		URL:      u,
 		ImageURL: meta.ImageURL,
 	})
 }

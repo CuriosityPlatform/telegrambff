@@ -9,7 +9,7 @@ import (
 	"telegrambot/pkg/pocket/app"
 )
 
-func NewStorage(secretKey string, databaseID string) app.PocketItemStorage {
+func NewStorage(secretKey, databaseID string) app.PocketItemStorage {
 	return &storage{
 		client:     notionapi.NewClient(notionapi.Token(secretKey)),
 		databaseID: databaseID,

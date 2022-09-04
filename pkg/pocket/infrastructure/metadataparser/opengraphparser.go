@@ -69,7 +69,6 @@ func (parser *openGraphParser) Parse(u *url.URL) (app.Metadata, error) {
 				}
 			}
 		}
-
 	})
 	if crawlerErr != nil {
 		return app.Metadata{}, errors.Wrap(app.ErrFailedToParseForMetadata, crawlerErr.Error())

@@ -18,12 +18,12 @@ type ChatContext interface {
 }
 
 func NewChatContext(
-	context Context,
+	ctx Context,
 	chatID token.ChatID,
 	userID maybe.Maybe[token.UserID],
 ) ChatContext {
 	return &chatContext{
-		Context: context,
+		Context: ctx,
 		chatID:  chatID,
 		userID:  userID,
 	}

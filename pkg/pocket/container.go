@@ -7,8 +7,8 @@ import (
 	"telegrambot/pkg/pocket/infrastructure/notion"
 )
 
-func ContainerAPI(notionSecretToken string, notionDatabaseID string) api.API {
-	return api.NewApi(app.NewService(
+func ContainerAPI(notionSecretToken, notionDatabaseID string) api.API {
+	return api.NewAPI(app.NewService(
 		notion.NewStorage(notionSecretToken, notionDatabaseID),
 		metadataparser.NewOpenGraphParser(),
 	))

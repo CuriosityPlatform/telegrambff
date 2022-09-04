@@ -19,6 +19,6 @@ type adapter struct {
 	pocketAPI api.API
 }
 
-func (a *adapter) AddPocketItem(ctx context.Context, url *url.URL) error {
-	return a.pocketAPI.AddPocketItem(ctx, url)
+func (a *adapter) AddPocketItem(ctx context.Context, u *url.URL) error {
+	return a.pocketAPI.AddPocketItem(ctx, u)
 }
