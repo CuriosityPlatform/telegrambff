@@ -42,7 +42,7 @@ func (b *bff) HandleUpdate(ctx context.Context, update tgbotapi.Update) tgbotapi
 		return translateError(chatCtx, err)
 	}
 
-	return tgbotapi.NewMessage(int64(chatCtx.ChatID()), "Link added")
+	return tgbotapi.NewMessage(int64(chatCtx.ChatID()), "Link added 👍")
 }
 
 func translateError(ctx context.ChatContext, err error) tgbotapi.Chattable {
