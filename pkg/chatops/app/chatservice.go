@@ -20,7 +20,7 @@ type chatService struct {
 }
 
 func (service *chatService) HandleMessage(ctx context.ChatContext, text string) error {
-	if textURL, err := url.Parse(text); err == nil {
+	if textURL, err := url.ParseRequestURI(text); err == nil {
 		// Just add url to pocket
 		return service.pocketAdapter.AddPocketItem(ctx, textURL)
 	}

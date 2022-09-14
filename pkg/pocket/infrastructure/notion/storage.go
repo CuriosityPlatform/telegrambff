@@ -5,6 +5,7 @@ import (
 
 	"github.com/UsingCoding/fpgo/pkg/maybe"
 	"github.com/jomei/notionapi"
+	"github.com/pkg/errors"
 
 	"telegrambot/pkg/pocket/app"
 )
@@ -22,9 +23,15 @@ type storage struct {
 }
 
 func (s *storage) Store(ctx context.Context, item app.PocketItem) error {
-	var imageURLStr string
+	var coverImage *notionapi.Image
+
 	if maybe.Valid(item.ImageURL) {
-		imageURLStr = maybe.Just(item.ImageURL).String()
+		coverImage = &notionapi.Image{
+			Type: notionapi.FileTypeExternal,
+			External: &notionapi.FileObject{
+				URL: maybe.Just(item.ImageURL).String(),
+			},
+		}
 	}
 
 	// Create new page in Notion
@@ -48,12 +55,7 @@ func (s *storage) Store(ctx context.Context, item app.PocketItem) error {
 				URL:  item.URL.String(),
 			},
 		},
-		Cover: &notionapi.Image{
-			Type: notionapi.FileTypeExternal,
-			External: &notionapi.FileObject{
-				URL: imageURLStr,
-			},
-		},
+		Cover: coverImage,
 	})
-	return err
+	return errors.WithStack(err)
 }

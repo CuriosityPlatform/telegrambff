@@ -8,6 +8,8 @@ import (
 	"syscall"
 
 	"github.com/urfave/cli/v2"
+
+	jsonlogger "telegrambot/pkg/common/infrastructure/logger"
 )
 
 const (
@@ -33,6 +35,11 @@ func runApp(ctx context.Context, args []string) error {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
+	logger, err := initLogger()
+	if err != nil {
+		return err
+	}
+
 	c, err := parseEnv()
 	if err != nil {
 		return err
@@ -42,7 +49,7 @@ func runApp(ctx context.Context, args []string) error {
 		Name:    appID,
 		Version: version,
 		Commands: []*cli.Command{
-			service(c),
+			service(c, logger),
 		},
 	}
 
@@ -65,4 +72,7 @@ func subscribeForKillSignals(ctx context.Context) context.Context {
 	}()
 
 	return ctx
+}
+func initLogger() (jsonlogger.MainLogger, error) {
+	return jsonlogger.NewLogger(&jsonlogger.Config{AppName: appID}), nil
 }
