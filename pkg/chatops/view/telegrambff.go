@@ -57,7 +57,7 @@ func translateError(ctx context.ChatContext, err error) tgbotapi.Chattable {
 	case app.ErrUnknownHandleAction:
 		return tgbotapi.NewMessage(int64(ctx.ChatID()), "Unknown action to perform")
 	case auth.ErrUnauthorizedUser:
-		return tgbotapi.NewMessage(int64(ctx.ChatID()), "Unauthorized")
+		return tgbotapi.NewMessage(int64(ctx.ChatID()), "🚫 Unauthorized access: please contact to owner")
 	default:
 		return tgbotapi.NewMessage(int64(ctx.ChatID()), "Unknown error")
 	}

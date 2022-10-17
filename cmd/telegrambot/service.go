@@ -28,7 +28,7 @@ func runService(ctx context.Context, config *config, l logger.Logger) error {
 		return err
 	}
 
-	pocketAPI := pocket.ContainerAPI(config.NotionSecretToken, config.NotionDatabaseID)
+	pocketAPI := pocket.ContainerAPI(config.NotionSecretToken, config.NotionDatabaseID, config.NotionResourceDatabaseID)
 	telegramBFF := chatops.Container(pocketAPI, token.UserID(config.AuthorizedUserID), l)
 
 	updateListener := telegramserver.NewPullUpdateListener(bot)
