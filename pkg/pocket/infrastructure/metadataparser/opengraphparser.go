@@ -42,7 +42,7 @@ func (parser *openGraphParser) Parse(u *url.URL) (app.Metadata, error) {
 		return app.Metadata{}, errors.WithStack(app.ErrFailedToParseForMetadata)
 	}
 
-	var title string
+	var title maybe.Maybe[string]
 	var imageURL *url.URL
 	var crawlerErr error
 
@@ -56,7 +56,7 @@ func (parser *openGraphParser) Parse(u *url.URL) (app.Metadata, error) {
 		if attrs[0].Val == openGraphTitleProperty {
 			content := findContentAttribute(attrs)
 			if maybe.Valid(content) {
-				title = maybe.Just(content)
+				title = content
 				return
 			}
 		}
@@ -76,15 +76,11 @@ func (parser *openGraphParser) Parse(u *url.URL) (app.Metadata, error) {
 	}
 
 	// If open graph title empty, use title tag
-	if title == "" {
+	if !maybe.Valid(title) {
 		const titleSelector = "title"
 		doc.Find(titleSelector).Each(func(i int, selection *goquery.Selection) {
-			title = selection.Text()
+			title = maybe.NewJust(selection.Text())
 		})
-
-		if title == "" {
-			return app.Metadata{}, errors.Errorf("no title found for url %s", u)
-		}
 	}
 
 	var image maybe.Maybe[*url.URL]

@@ -3,6 +3,8 @@ package app
 import (
 	"context"
 	"net/url"
+
+	"github.com/UsingCoding/fpgo/pkg/maybe"
 )
 
 type Service interface {
@@ -24,8 +26,14 @@ func (s *service) AddPocketItem(ctx context.Context, u *url.URL) error {
 		return err
 	}
 
+	// Take host as title if title not found
+	title := u.Host
+	if maybe.Valid(meta.Title) {
+		title = maybe.Just(meta.Title)
+	}
+
 	return s.pocketItemStorage.Store(ctx, PocketItem{
-		Title:    meta.Title,
+		Title:    title,
 		URL:      u,
 		ImageURL: meta.ImageURL,
 	})

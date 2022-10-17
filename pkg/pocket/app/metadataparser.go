@@ -7,7 +7,7 @@ import (
 )
 
 type Metadata struct {
-	Title    string
+	Title    maybe.Maybe[string]
 	ImageURL maybe.Maybe[*url.URL]
 }
 
